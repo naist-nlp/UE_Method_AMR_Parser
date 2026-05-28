@@ -55,7 +55,24 @@ We test 13 UE methods across three AMR quality metrics (Smatch++, S2match, SemBL
         README.md            - Instructions for downloading the parser output data
 
 
-## Setup
+## Reproducing Results Without the Raw Data
+
+The pre-computed similarity matrices and quality scores are included in this repository under `estimators/results/cache/`. These are compressed numpy arrays containing only floating-point numbers — no text, no sentences, nothing from the original dataset.
+
+This means you can reproduce all PRR scores directly without downloading any parser output data:
+
+    conda activate polygraph
+    python run_all.py --n_samples 0
+
+The pipeline will detect the cached files and skip recomputation, running in seconds.
+
+To generate the paper figures after that:
+
+    python build_results_json.py
+    python paper_plots/run_all.py
+
+
+## Setup (only needed to run on new data)
 
 ### Step 1: Download the data
 
