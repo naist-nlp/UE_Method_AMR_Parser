@@ -1,6 +1,6 @@
-# Can We Believe Our AMR Parsers?
+# How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing
 
-Code for the paper **"Can We Believe Our AMR Parsers? Uncertainty Estimation for AMR Parsing"**.
+Code for the paper **"How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing"**.
 
 This repository provides the full pipeline to reproduce the PRR (Prediction Rejection Ratio) scores reported in the paper for six AMR parsers across four beam sizes (k = 3, 5, 8, 10).
 
