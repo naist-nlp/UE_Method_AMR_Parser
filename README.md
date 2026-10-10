@@ -180,4 +180,13 @@ where * is one of: smatch, smatchpp, s2match, sema, wlk
 
 If you use this code, please cite:
 
-    @inproceedings{...}
+    @inproceedings{kumar2026reliable,
+  title     = {How Reliable are AMR Parser Outputs?
+               Uncertainty Estimation for AMR Parsing},
+  author    = {Kumar, Anuj and Ozaki, Shintaro and
+               Prasad, Yamuna and Hayashi, Katsuhiko and
+               Kamigaito, Hidetaka and Watanabe, Taro},
+  booktitle = {Proceedings of the 2026 Conference on
+               Empirical Methods in Natural Language Processing},
+  year      = {2026}
+}
