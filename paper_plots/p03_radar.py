@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Radar chart at beam 10 for EigVal, DegMat, Ecc families (Figure 3)."""
+"""parser_radar_beam10.pdf — Radar chart, beam 10, families: EigVal DegMat Ecc (no LexSim)."""
 import sys; sys.path.insert(0, "paper_plots")
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from shared import *
 
+# ── TUNING ──────────────────────────────────────────────────────────────────
 BEAM       = 10
 FIG_SIZE   = (7, 7)
 SPOKE_FS   = 16
@@ -15,6 +16,7 @@ TITLE_FS   = 10
 LINE_WIDTH = 2.0
 FILL_ALPHA = 0.07
 RLABEL_POS = 160
+# ────────────────────────────────────────────────────────────────────────────
 
 FAMILIES_3 = {
     "EigVal": UE_FAMILIES["EigVal"],
@@ -53,7 +55,7 @@ ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.2f"))
 ax.tick_params(labelsize=12)
 ax.grid(True, alpha=0.3)
 ax.set_title(f"Parser Reliability Profile  |  Beam {BEAM}\n"
-             "(mean PRR: EigVal, DegMat, Ecc x S++, S2match, SemBLEU)",
+             "(mean PRR: EigVal, DegMat, Ecc × S++, S²match, SemBLEU)",
              fontsize=TITLE_FS, fontweight="bold", pad=22)
 ax.legend(loc="upper right", bbox_to_anchor=(1.35, 1.15), fontsize=LEGEND_FS)
 

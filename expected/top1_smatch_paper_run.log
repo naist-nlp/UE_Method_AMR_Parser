@@ -1,0 +1,32 @@
+# Top-1 Smatch of the paper's runs (Tables 1 and 3): output of the authors' check_smatch_all.py,
+# Slurm jobs 449468 and 449532, 16 May 2026 (mean of per-sentence Smatch, beam 3).
+
+==============================
+ Job  : 449468
+ Node : ahcclcsa01
+ Start: Sat May 16 07:42:32 PM JST 2026
+==============================
+Smatch top-1 vs gold  (beam3)
+────────────────────────────────────────────────────────────────────────
+  SPRING            n=1898  mean=0.8449  zeros=  5  min=0.0000  max=1.0000
+  IBM               n=1898  mean=0.8128  zeros= 32  min=0.0000  max=1.0000
+  HMG-T5            n=1898  mean=0.7693  zeros= 50  min=0.0000  max=1.0000
+  HMG-BART          n=1898  mean=0.8358  zeros= 21  min=0.0000  max=1.0000
+  Ministral-3B      n=1890  mean=0.0401  zeros=1385  min=0.0000  max=0.5000
+  Ministral-8B      n=1890  mean=0.0611  zeros=1188  min=0.0000  max=0.7690
+  Ministral-14B     n=1890  mean=0.0897  zeros=921  min=0.0000  max=0.7690
+  Qwen3-4B          n=1890  mean=0.0490  zeros=1312  min=0.0000  max=0.6150
+  Qwen3-8B          n=1890  mean=0.0767  zeros=1007  min=0.0000  max=0.7140
+  Qwen3-32B         n=1890  mean=0.1214  zeros=587  min=0.0000  max=0.7690
+End : Sat May 16 08:23:24 PM JST 2026
+
+==============================
+ Job  : 449532
+ Node : ahcclcsa01
+ Start: Sat May 16 09:14:05 PM JST 2026
+==============================
+Smatch top-1 vs gold  (beam3)
+────────────────────────────────────────────────────────────────────────
+  amr3joint-seed44  n=1898  mean=0.8374  zeros=  5  min=0.0000  max=1.0000
+  ibm-neur-al       n=1898  mean=0.8115  zeros= 34  min=0.0000  max=1.0000
+End : Sat May 16 09:23:45 PM JST 2026

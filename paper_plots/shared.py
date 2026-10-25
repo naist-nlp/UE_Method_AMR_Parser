@@ -1,5 +1,4 @@
 """Shared constants and helpers for all paper figure scripts."""
-
 import csv
 import numpy as np
 from pathlib import Path
@@ -44,7 +43,7 @@ PARSER_MARKERS = {
     "ibm_amr3.0_neur_al":         "X",
 }
 
-# Top-1 Smatch scores at beam 3 (no-wiki, used in Figure 5)
+# Top-1 Smatch scores (nowiki, beam3)
 SMATCH_SCORES = {
     "SPRING":                     0.8449,
     "IBM_parser":                 0.8128,
@@ -71,29 +70,30 @@ UE_METHODS = [
 ]
 
 UE_DISPLAY = {
-    "LexicalSimilarity":       "LexSim",
-    "EigValLaplacian_smatch":  "EigV-Smatch",
-    "EigValLaplacian_s2match": "EigV-S2match",
-    "EigValLaplacian_sema":    "EigV-SEMA",
-    "EigValLaplacian_wlk":     "EigV-WLK",
-    "DegMat_smatch":           "DegMat-Smatch",
-    "DegMat_s2match":          "DegMat-S2match",
-    "DegMat_sema":             "DegMat-SEMA",
-    "DegMat_wlk":              "DegMat-WLK",
-    "Eccentricity_smatch":     "Ecc-Smatch",
-    "Eccentricity_s2match":    "Ecc-S2match",
-    "Eccentricity_sema":       "Ecc-SEMA",
-    "Eccentricity_wlk":        "Ecc-WLK",
+    "LexicalSimilarity":      "LexSim",
+    "EigValLaplacian_smatch": "EigV-Smatch",
+    "EigValLaplacian_s2match":"EigV-S²match",
+    "EigValLaplacian_sema":   "EigV-SEMA",
+    "EigValLaplacian_wlk":    "EigV-WLK",
+    "DegMat_smatch":          "DegMat-Smatch",
+    "DegMat_s2match":         "DegMat-S²match",
+    "DegMat_sema":            "DegMat-SEMA",
+    "DegMat_wlk":             "DegMat-WLK",
+    "Eccentricity_smatch":    "Ecc-Smatch",
+    "Eccentricity_s2match":   "Ecc-S²match",
+    "Eccentricity_sema":      "Ecc-SEMA",
+    "Eccentricity_wlk":       "Ecc-WLK",
 }
 
+# UE families: each family line = mean of its members
 UE_FAMILIES = {
     "LexSim": ["LexicalSimilarity"],
-    "EigVal": ["EigValLaplacian_smatch", "EigValLaplacian_s2match",
-               "EigValLaplacian_sema",   "EigValLaplacian_wlk"],
-    "DegMat": ["DegMat_smatch", "DegMat_s2match",
-               "DegMat_sema",   "DegMat_wlk"],
-    "Ecc":    ["Eccentricity_smatch", "Eccentricity_s2match",
-               "Eccentricity_sema",   "Eccentricity_wlk"],
+    "EigVal": ["EigValLaplacian_smatch","EigValLaplacian_s2match",
+               "EigValLaplacian_sema","EigValLaplacian_wlk"],
+    "DegMat": ["DegMat_smatch","DegMat_s2match",
+               "DegMat_sema","DegMat_wlk"],
+    "Ecc":    ["Eccentricity_smatch","Eccentricity_s2match",
+               "Eccentricity_sema","Eccentricity_wlk"],
 }
 
 FAMILY_STYLE = {
@@ -104,12 +104,12 @@ FAMILY_STYLE = {
 }
 
 QUALITIES      = ["S++", "S2", "SB"]
-QUALITY_LABELS = {"S++": "Smatch++", "S2": "S2match", "SB": "SemBLEU"}
+QUALITY_LABELS = {"S++": "Smatch++", "S2": "S²match", "SB": "SemBLEU"}
 QUALITY_COLORS = {"S++": "#1565C0",  "S2": "#2E7D32", "SB": "#E65100"}
 
 
-def load_beam(beam):
-    """Return {parser: {ue_method: {S++, S2, SB}}} from CSV files for one beam size."""
+def load_beam(beam: int) -> dict:
+    """Return {parser: {ue_method: {S++, S2, SB}}}."""
     data = {}
     for parser in BASELINE_PARSERS:
         csv_path = RESULTS_DIR / f"results_{parser.replace('/', '_')}_beam{beam}.csv"
@@ -128,8 +128,15 @@ def load_beam(beam):
     return data
 
 
+def family_mean(data, parser, family_methods, quality):
+    vals = [data.get(parser, {}).get(m, {}).get(quality, float("nan"))
+            for m in family_methods]
+    vals = [v for v in vals if not np.isnan(v)]
+    return np.mean(vals) if vals else float("nan")
+
+
 def bold_ticks(ax, which="y"):
-    """Make tick labels bold. Must call plt.draw() before this to ensure labels exist."""
+    """Make tick labels bold on an axes. which='y', 'x', or 'both'."""
     if which in ("y", "both"):
         for lbl in ax.get_yticklabels():
             lbl.set_fontweight("bold")
@@ -138,16 +145,16 @@ def bold_ticks(ax, which="y"):
             lbl.set_fontweight("bold")
 
 
-def save(fig, name):
-    """Save figure as PDF and PNG to paper_figures/."""
+def save(fig, name: str):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
         fig.savefig(OUT_DIR / f"{name}.{ext}", bbox_inches="tight", dpi=300)
     import matplotlib.pyplot as plt
     plt.close(fig)
-    print(f"  saved: paper_figures/{name}.pdf")
+    print(f"  → paper_figures/{name}.pdf")
 
 
+# Global rcParams for paper quality
 RCPARAMS = {
     "font.family":       "DejaVu Sans",
     "font.size":         9,

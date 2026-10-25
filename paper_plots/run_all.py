@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Run all paper figure scripts in order. Must be run from the project root."""
-import subprocess
-import sys
+"""Run all paper figure scripts. Output → paper_figures/"""
+import subprocess, sys
 from pathlib import Path
 
-SCRIPTS = [
+scripts = [
     "paper_plots/p01_summary_allbeams.py",
     "paper_plots/p02_prr_vs_beam_avg.py",
     "paper_plots/p03_radar.py",
@@ -16,12 +15,8 @@ SCRIPTS = [
     "paper_plots/p09_prr_vs_beam_quality.py",
 ]
 
-for script in SCRIPTS:
-    print(f"\nRunning {script} ...")
-    result = subprocess.run([sys.executable, script])
-    if result.returncode != 0:
-        print(f"  ERROR: {script} failed (exit code {result.returncode})")
-    else:
-        print(f"  OK")
-
-print("\nAll figures saved to paper_figures/")
+for s in scripts:
+    print(f"\n{'='*50}\n  {Path(s).name}\n{'='*50}")
+    r = subprocess.run([sys.executable, s])
+    if r.returncode != 0:
+        print(f"  [FAILED] {s}")

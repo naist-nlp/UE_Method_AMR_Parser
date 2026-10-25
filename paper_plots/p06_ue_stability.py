@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Heatmap: UE methods x beam sizes, mean PRR over all parsers (Figure 6)."""
+"""ue_stability.pdf — Heatmap: UE methods × beam sizes, mean PRR over parsers."""
 import sys; sys.path.insert(0, "paper_plots")
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -7,11 +7,13 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import TwoSlopeNorm
 from shared import *
 
-FIG_SIZE  = (13, 5.5)
-CELL_FS   = 7.5
-YLABEL_FS = 8.5
-XLABEL_FS = 8.5
-TITLE_FS  = 10
+# ── TUNING ──────────────────────────────────────────────────────────────────
+FIG_SIZE   = (13, 5.5)
+CELL_FS    = 7.5    # font size inside cells
+YLABEL_FS  = 8.5    # y-axis (UE method) label size
+XLABEL_FS  = 8.5    # x-axis (beam) label size
+TITLE_FS   = 10
+# ────────────────────────────────────────────────────────────────────────────
 
 plt.rcParams.update(RCPARAMS)
 fig, axes = plt.subplots(1, 3, figsize=FIG_SIZE)
@@ -36,6 +38,7 @@ for ax, quality in zip(axes, QUALITIES):
     ax.set_yticks(range(len(UE_METHODS)))
     ax.set_yticklabels([UE_DISPLAY[m] for m in UE_METHODS], fontsize=YLABEL_FS, fontweight="bold")
 
+    # white cell borders
     ax.set_xticks(np.arange(len(BEAMS)) - 0.5, minor=True)
     ax.set_yticks(np.arange(len(UE_METHODS)) - 0.5, minor=True)
     ax.grid(which="minor", color="white", linewidth=1.2)

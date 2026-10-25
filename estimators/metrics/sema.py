@@ -1,4 +1,8 @@
-"""SEMA pairwise similarity using the in-process Python API."""
+"""
+SEMA similarity for AMR graphs via Python API (in-process).
+
+Uses the local sema library.
+"""
 
 import sys
 import numpy as np
@@ -11,6 +15,7 @@ _SEMA_DIR = _HERE.parent.parent / "similarities" / "sema"
 if str(_SEMA_DIR) not in sys.path:
     sys.path.insert(0, str(_SEMA_DIR))
 
+# Lazy imports to avoid polluting namespace before sema dir is on path
 _Sema = None
 _SemaAMR = None
 
@@ -24,16 +29,19 @@ def _load_sema():
         _SemaAMR = SemaAMR
 
 
-def _amr_to_oneline(text):
+def _amr_to_oneline(text: str) -> str:
+    """Convert multi-line AMR (with possible # metadata) to one-line."""
     lines = [l.strip() for l in text.splitlines() if l.strip() and not l.strip().startswith("#")]
     return " ".join(lines)
 
 
-def _score_pair(amr1_text, amr2_text):
+def _score_pair(amr1_text: str, amr2_text: str) -> float:
     _load_sema()
     try:
-        a1 = _SemaAMR.parse_AMR_line(_amr_to_oneline(amr1_text))
-        a2 = _SemaAMR.parse_AMR_line(_amr_to_oneline(amr2_text))
+        o1 = _amr_to_oneline(amr1_text)
+        o2 = _amr_to_oneline(amr2_text)
+        a1 = _SemaAMR.parse_AMR_line(o1)
+        a2 = _SemaAMR.parse_AMR_line(o2)
         if a1 is None or a2 is None:
             return 0.0
         scorer = _Sema()
@@ -45,12 +53,13 @@ def _score_pair(amr1_text, amr2_text):
         return 0.0
 
 
-def compute_single(amr1, amr2):
+def compute_single(amr1: str, amr2: str) -> float:
+    """Compute SEMA F1 between two AMR graphs."""
     return _score_pair(amr1, amr2)
 
 
-def compute_matrix(graphs):
-    """Compute k x k pairwise SEMA similarity matrix."""
+def compute_matrix(graphs: List[str]) -> np.ndarray:
+    """Compute k×k pairwise SEMA similarity matrix."""
     k = len(graphs)
     mat = np.eye(k, dtype=float)
     for i in range(k):

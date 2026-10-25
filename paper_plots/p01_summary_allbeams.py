@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mean PRR per parser averaged over all beams and all UE methods (Figure 1)."""
+"""summary_allbeams.pdf — Mean PRR per parser averaged over all beams & UE methods."""
 import sys; sys.path.insert(0, "paper_plots")
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -7,10 +7,13 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from shared import *
 
+# ── TUNING ──────────────────────────────────────────────────────────────────
 FIG_SIZE     = (5.5, 3.2)
+# TITLE        = "Mean PRR per Parser  (avg. beams 3, 5, 8, 10)"
 BAR_WIDTH    = 0.22
 BAR_ANNOT_FS = 10
 XTICK_ROT    = 15
+# ────────────────────────────────────────────────────────────────────────────
 
 plt.rcParams.update(RCPARAMS)
 
@@ -48,12 +51,12 @@ ax.set_xticks(x)
 ax.set_xticklabels([PARSER_DISPLAY[p] for p in parsers],
                    fontsize=10.5, fontweight="bold", rotation=XTICK_ROT, ha="right")
 ax.tick_params(axis="y", labelsize=10)
-ax.set_ylabel("Mean PRR (all UE methods, all beams)", fontsize=9, fontweight="bold")
+ax.set_ylabel("Mean PRR (all UE methods, all beams)", fontsize=9,fontweight="bold")
+# ax.set_title(TITLE, fontsize=12, fontweight="bold", pad=8)
 ax.legend(fontsize=9, loc="upper center", bbox_to_anchor=(0.42, 1.1),
           handlelength=1.2, ncol=1)
 ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.2f"))
-
-plt.draw()
+plt.draw()  # force tick labels to be generated before styling them
 for label in ax.get_yticklabels():
     label.set_fontweight("bold")
 

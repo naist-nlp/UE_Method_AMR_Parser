@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Reads all per-parser CSV files produced by run_all.py and writes a single
-consolidated results.json used by the paper figure scripts.
+build_results_json.py
 
-Run this after run_all.py has finished:
-    python build_results_json.py
+Reads all results_{parser}_beam{N}.csv files for baseline parsers and
+writes a unified estimators/results/results.json used by plot_results.py
+and export_results.py.
 """
 
 import csv
@@ -25,7 +25,8 @@ BASELINE_PARSERS = [
 BEAMS = [3, 5, 8, 10]
 
 
-def read_csv(path):
+def read_csv(path: Path) -> dict:
+    """Return {ue_method: {S++: v, S2: v, SB: v}} from a results CSV."""
     data = {}
     with open(path) as f:
         reader = csv.DictReader(f)

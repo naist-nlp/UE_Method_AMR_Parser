@@ -1,4 +1,8 @@
-"""Smatch++ pairwise similarity using the in-process Python API."""
+"""
+Smatch++ similarity for AMR graphs via Python API (in-process).
+
+Uses the local smatchpp library.
+"""
 
 import sys
 import numpy as np
@@ -16,39 +20,49 @@ from smatchpp import Smatchpp as _Smatchpp
 _SCORER = None
 
 
-def _get_scorer():
+def _get_scorer() -> _Smatchpp:
     global _SCORER
     if _SCORER is None:
         _SCORER = _Smatchpp()
     return _SCORER
 
 
-def _clean(text):
-    lines = [l.rstrip() for l in text.splitlines() if l.strip() and not l.strip().startswith("#")]
-    return "\n".join(lines)
-
-
-def compute_single(amr1, amr2):
+def compute_single(amr1: str, amr2: str) -> float:
     """Compute Smatch++ F1 between two AMR graphs."""
     try:
-        result = _get_scorer().score_pair(_clean(amr1), _clean(amr2))
+        a1 = _clean(amr1)
+        a2 = _clean(amr2)
+        result = _get_scorer().score_pair(a1, a2)
         return float(result["main"]["F1"]) / 100.0
     except Exception:
         return 0.0
 
 
-def compute_matrix(graphs):
-    """Compute k x k pairwise Smatch++ similarity matrix."""
+def _clean(text: str) -> str:
+    lines = [l.rstrip() for l in text.splitlines() if l.strip() and not l.strip().startswith("#")]
+    return "\n".join(lines)
+
+
+def compute_matrix(graphs: List[str]) -> np.ndarray:
+    """
+    Compute k×k pairwise Smatch++ similarity matrix.
+
+    Diagonal is 1.0; upper triangle computed, then symmetrised.
+    """
     k = len(graphs)
     mat = np.eye(k, dtype=float)
     scorer = _get_scorer()
+
     for i in range(k):
         for j in range(i + 1, k):
             try:
-                result = scorer.score_pair(_clean(graphs[i]), _clean(graphs[j]))
+                a1 = _clean(graphs[i])
+                a2 = _clean(graphs[j])
+                result = scorer.score_pair(a1, a2)
                 s = float(result["main"]["F1"]) / 100.0
             except Exception:
                 s = 0.0
             mat[i, j] = s
             mat[j, i] = s
+
     return mat

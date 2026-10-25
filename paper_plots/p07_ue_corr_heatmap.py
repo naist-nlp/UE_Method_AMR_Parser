@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""13x13 Spearman correlation heatmap between UE methods (Figure 7)."""
+"""ue_corr_heatmap_{S++,S2,SB}.pdf — 13×13 Spearman ρ between UE methods."""
 import sys; sys.path.insert(0, "paper_plots")
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -8,10 +8,12 @@ from matplotlib.colors import TwoSlopeNorm
 from scipy.stats import spearmanr
 from shared import *
 
-FIG_SIZE = (9, 8)
-CELL_FS  = 7
-TICK_FS  = 8.5
-TITLE_FS = 10
+# ── TUNING ──────────────────────────────────────────────────────────────────
+FIG_SIZE  = (9, 8)
+CELL_FS   = 7
+TICK_FS   = 8.5
+TITLE_FS  = 10
+# ────────────────────────────────────────────────────────────────────────────
 
 plt.rcParams.update(RCPARAMS)
 n = len(UE_METHODS)
@@ -63,15 +65,16 @@ for quality in QUALITIES:
                     fontsize=CELL_FS, color=tc, fontweight="bold")
 
     cb = plt.colorbar(im, ax=ax, fraction=0.03, pad=0.02)
-    cb.set_label("Spearman rho", fontsize=9, fontweight="bold")
+    cb.set_label("Spearman ρ", fontsize=9, fontweight="bold")
     cb.ax.tick_params(labelsize=8)
     for lbl in cb.ax.get_yticklabels():
         lbl.set_fontweight("bold")
 
     ax.set_title(
-        f"UE Method Pairwise Correlation (Spearman rho)  --  {QUALITY_LABELS[quality]}\n"
-        f"across {len(BASELINE_PARSERS)} parsers x {len(BEAMS)} beams",
+        f"UE Method Pairwise Correlation (Spearman ρ)  —  {QUALITY_LABELS[quality]}\n"
+        f"across {len(BASELINE_PARSERS)} parsers × {len(BEAMS)} beams",
         fontsize=TITLE_FS, fontweight="bold", pad=12)
 
     plt.tight_layout()
-    save(fig, f"ue_corr_heatmap_{quality}")
+    fname = f"ue_corr_heatmap_{quality}"
+    save(fig, fname)
