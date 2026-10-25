@@ -1,6 +1,6 @@
 # How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing
 
-Code for the paper [**"How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing"**.](https://arxiv.org/abs/2610.13236)
+Code for the paper [**"How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing"**.](https://aclanthology.org/2026.emnlp-main.1365/)
 
 This repository provides the full pipeline to reproduce the PRR (Prediction Rejection Ratio) scores reported in the paper for six AMR parsers across four beam sizes (k = 3, 5, 8, 10).
 
@@ -180,9 +180,20 @@ where * is one of: smatch, smatchpp, s2match, sema, wlk
 
 If you use this code, please cite:
 
-    @inproceedings{kumar2026reliable,
-    title= {How Reliable are AMR Parser Outputs? Uncertainty Estimation for AMR Parsing}, 
-    author= {Kumar, Anuj and Ozaki, Shintaro and Prasad, 
-    Yamuna and Hayashi, Katsuhiko and Kamigaito, Hidetaka and Watanabe, Taro}, 
-    booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing}, 
-    year= {2026} }
+    @inproceedings{kumar-etal-2026-reliable,
+    title = "How Reliable are {AMR} Parser Outputs? Uncertainty Estimation for {AMR} Parsing",
+    author = "Kumar, Anuj  and
+      Ozaki, Shintaro  and
+      Prasad, Yamuna  and
+      Hayashi, Katsuhiko  and
+      Kamigaito, Hidetaka  and
+      Watanabe, Taro",
+    booktitle = "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+    month = oct,
+    year = "2026",
+    address = "Budapest, Hungary",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.emnlp-main.1365/",
+    pages = "31144--31159",
+    ISBN = "979-8-89176-459-0",
+}
